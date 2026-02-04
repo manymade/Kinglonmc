@@ -1,2 +1,2 @@
 # Kinglonmc
-Based off a Minecraft PvP server - since 2020-2023
+Based on a Minecraft Kit-PvP server from 2020–2022. This is a 2026 remake.
