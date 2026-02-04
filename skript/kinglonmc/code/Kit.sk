@@ -1,0 +1,60 @@
+# made by manymade (Unforn)
+# https://github.com/manymade/Kinglonmc
+
+
+on tab complete of "/kit":
+    set tab completions for position 1 to kit_getnames()
+
+    if player has permission "kit.maker":
+        set tab completions for position 1 to kit_getnames(), "create" and "remove"
+        if tab arg-1 = "remove":
+            set tab completions for position 2 to kit_getnames()
+
+        if tab arg-1 = "create":
+            set {_} to "#kit-name"
+            set tab completions for position 2 to {_} 
+
+
+command /kit [<text>] [<text>]:
+    trigger:
+        if all:
+            arg-1 is set
+            kit_getnames() contains arg-1
+            arg-2 is not set
+        then:
+            set {_kit} to {-kit::%arg-1%::name}
+            if {_kit} is set:
+                convert_tokit(player, kit_get(arg-1))
+                message "&fYou have chosen, %{_kit}% &fkit!" if {_kit} is not empty
+        
+        if player has permission "kit.maker":
+            if all:
+                arg-1 = "create"
+                arg-2 is set 
+                arg-2 matches "^[a-zA-Z0-9&]+$" or "^[a-zA-Z]+\d+$"
+                kit_getnames() doesn't contain arg-2
+            then:
+                kit_var_initset(arg-2, player_inventory(player))
+                message "&fYou created a kit named %colored arg-2%"
+
+            if all:
+                arg-1 = "remove"
+                arg-2 is set 
+                kit_getnames() contains arg-2
+            then:
+                message "&fKit named %{-kit::%arg-2%::name}% &fwas removed"
+                kit_var_remove(arg-2)
+                
+
+# formating items to a specific text format
+local function player_inventory(sender: player) :: texts:
+    loop all items in {_sender}'s inventory:
+        add "%loop-item%;%loop-item's index%" to {_items::*}
+    return {_items::*}
+
+# converting text into useful resources
+local function convert_tokit(sender: player, kitinfo: texts):
+    loop {_kitinfo::*}:
+        set {_split::*} to split loop-value by ";"
+        give ({_split::1} parsed as item) to {_sender} if slot ({_split::2} parsed as number) of {_sender}'s inventory != air
+        set slot ({_split::2} parsed as number) of {_sender}'s inventory to ({_split::1} parsed as item) if slot ({_split::2} parsed as number) of {_sender}'s inventory = air 

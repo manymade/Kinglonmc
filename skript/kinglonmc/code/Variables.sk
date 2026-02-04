@@ -1,0 +1,52 @@
+# made by manymade (Unforn)
+# https://github.com/manymade/Kinglonmc
+
+
+# required so we don't have to access the config often
+function kit_names():
+    set {-kit::*} to kitconfig_getnames() 
+
+function kit_vars():
+    clear {-kit::*}
+    kit_names()
+    loop {-kit::*}:
+        kit_var_initset(loop-value)
+
+
+function kit_var_initset(kitname: text, items: texts):
+    kitconfig_save({_kitname}, {_items::*})
+
+# loading specific kits into variables
+# function loaded from config
+function kit_var_initset(kitname: text):
+    add {_kitname} to {-kit::*}
+    # loaded from config
+    kit_variableinit({_kitname}, "name")
+    kit_variableinit({_kitname}, "state")
+    kit_variableinit({_kitname}, "items")   
+
+function kit_var_remove(kitname: text):
+    kitconfig_remove({_kitname})
+    delete {-kit::%{_kitname}%::*}
+    delete {-kit::%{_kitname}%}
+
+
+# [- DON'T USE THIS FUNCTION BY ITSELF -]
+local function kit_variableinit(kitname: text, type: text):
+    set {_value} to config_getvalue("kitconf", "Kits.%{_kitname}%.%{_type}%") 
+    set {_value::*} to config_getlist("kitconf", "Kits.%{_kitname}%.%{_type}%") 
+
+    set {-kit::%{_kitname}%::%{_type}%} to "%{_value}%" if {_value} is set
+    set {-kit::%{_kitname}%::%{_type}%::*} to "%{_value::*}%" if {_value::*} is set
+
+
+function kit_get(kitname: text) :: texts:
+    add {_kitname} to {_values::*}
+    add {-kit::%{_kitname}%::name} to {_values::*}
+    add {-kit::%{_kitname}%::state} to {_values::*}
+    add {-kit::%{_kitname}%::items::*} to {_values::*}
+    return {_values::*}
+
+
+function kit_getnames() :: texts:
+    return {-kit::*}

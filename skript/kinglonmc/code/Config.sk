@@ -1,0 +1,60 @@
+# made by manymade (Unforn)
+# https://github.com/manymade/Kinglonmc
+
+
+# load all the configs
+on unload:
+    unloadconfig("Kit")
+
+on load:
+    loadconfigs()
+
+# loading all configs will be called from here
+local function loadconfigs():
+    # kits.yaml
+    loadconfig("Kit")
+    kit_vars()
+
+# loading specific configs
+local function loadconfig(config: text):
+    save yaml "kitconf"
+    unload yaml "kitconf"
+    load yaml "plugins/Skript/scripts/Kinglonmc/code/configs/%{_config}%.yaml" as "%{_config} in lowercase%conf"
+
+local function unloadconfig(config: text):
+    unload yaml "%{_config} in lowercase%conf"
+
+function config_getvalue(config: text, path: text) :: object:
+    return yaml value {_path} from {_config}
+
+function config_getlist(config: text, path: text) :: objects:
+    return yaml list {_path} from {_config}
+
+
+# below is Kit.sk related 
+function kitconfig_save(kitname: text, items: texts):
+    set {_kn} to uncolored {_kitname}
+    set yaml value "Kits.%{_kn}%" from "kitconf" to " "
+    set yaml value "Kits.%{_kn}%.state" from "kitconf" to "true"
+    set yaml value "Kits.%{_kn}%.name" from "kitconf" to {_kitname}
+    set yaml list "Kits.%{_kn}%.items" from "kitconf" to {_items::*}
+    loadconfig("Kit")
+    kit_var_initset({_kn})
+    
+
+function kitconfig_remove(kitname: text):
+    delete yaml value "Kits.%{_kitname}%" from "kitconf"
+    delete yaml value "Kits.%{_kitname}%.state" from "kitconf"
+    delete yaml value "Kits.%{_kitname}%.name" from "kitconf"
+    delete yaml list "Kits.%{_kitname}%.items" from "kitconf"
+    loadconfig("Kit")
+    kit_names()
+
+
+function kitconfig_getnames() :: texts:
+    set {_paths::*} to all yaml paths from "kitconf"
+    loop {_paths::*}:
+        set {_split::*} to split loop-value by "."
+        add {_split::2} to {_values::*} if {_values::*} doesn't contain {_split::2}
+    
+    return {_values::*}
