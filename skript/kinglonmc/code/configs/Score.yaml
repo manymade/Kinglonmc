@@ -1,0 +1,12 @@
+Scoreboard:
+  main:
+    title: "&f&lKinglonMC"
+    lines:
+    - ""
+    - "Kit: $player_kit$"
+    - "Common: $player_kitcommon$"
+    - ""
+    - "Kills: &f&l$player_kills$"
+    - "Killstreak: &f&l$player_ks$"
+    - "Deaths: &f&l$player_deaths$"
+    - ""

@@ -1,2 +1,16 @@
 # made by manymade (Unforn)
 # https://github.com/manymade/Kinglonmc
+
+
+command /stats <offlineplayer=%player%>:
+    trigger:
+        stats(arg-1)
+        
+local function stats(sender: player):
+    message "&f&lKinglonmc %nl%&f%{_sender}%'s Stats%nl%" to {_sender}
+    message "First Joined: %nl%&l%{stats::%{_sender}'s uuid%::date}%%nl%" to {_sender}
+    message "Kit: %{stats::%{_sender}'s uuid%::kit}%" to {_sender}
+    message "Common: %{stats::%{_sender}'s uuid%::kitcommon}%%nl%" to {_sender}
+    message "Kills: &l%{stats::%{_sender}'s uuid%::kill}%" to {_sender}
+    message "Killstreak: &l%{stats::%{_sender}'s uuid%::ks}%" to {_sender}
+    message "Deaths: &l%{stats::%{_sender}'s uuid%::death}%" to {_sender}
