@@ -1,0 +1,9 @@
+# made by manymade (Unforn)
+# https://github.com/manymade/Kinglonmc
+
+
+function scoreboard(sender: player, score: text):
+    if score_getnames() contains {_score}:
+        set title of {_sender}'s fastboard to "%{-scoreboard::%{_score}%::title}%"
+        loop {-scoreboard::%{_score}%::lines::*}:
+            set line loop-iteration of {_sender}'s fastboard to "%parse_placeholder({_sender}, loop-value)%"
