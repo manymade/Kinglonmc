@@ -1,3 +1,0 @@
-on join:
-    stats_dfltinit(player)
-    scoreboard(player, "main")
