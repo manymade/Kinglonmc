@@ -11,5 +11,4 @@ server was founded by Kinglonmc, who was originally known as Stampysmith.
 
 Plan?
 Kinglonmc (2026) will be redeveloped as a fully functional Kit-PvP server built entirely from 
-scratch, with no previous code. This is just a remake, no word of a official KLMC server this year or 
-anytime in the future.
+scratch, with no previous code. 
