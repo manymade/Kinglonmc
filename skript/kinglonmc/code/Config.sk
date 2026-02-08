@@ -12,7 +12,7 @@ on load:
 
 # loading all configs will be called from here
 local function loadconfigs():
-    # Scoreboard.sk 
+    # score.yaml
     loadconfig("Score")
     score_vars()
 
@@ -22,9 +22,10 @@ local function loadconfigs():
 
 # loading specific configs
 local function loadconfig(config: text):
-    save yaml "kitconf"
-    unload yaml "kitconf"
-    load yaml "plugins/Skript/scripts/Kinglonmc/code/configs/%{_config}%.yaml" as "%{_config} in lowercase%conf"
+    set {_conf} to "%{_config} in lowercase%conf"
+    save yaml {_conf}
+    unload yaml {_conf}
+    load yaml "plugins/Skript/scripts/Kinglonmc/code/configs/%{_config}%.yaml" as {_conf}
 
 local function unloadconfig(config: text):
     unload yaml "%{_config} in lowercase%conf"
