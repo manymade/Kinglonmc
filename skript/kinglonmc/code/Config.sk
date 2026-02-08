@@ -32,9 +32,9 @@ local function loadconfig(config: text):
 
 local function reloadconfig(config: text):
     set {_conf} to "%{_config} in lowercase%conf"
-    save yaml {_conf}
     unload yaml {_conf}
     loadconfig({_config})
+    save yaml {_conf}
 
 local function unloadconfig(config: text):
     unload yaml "%{_config} in lowercase%conf"
