@@ -21,11 +21,12 @@ local function loadconfigs(type: text):
     score_vars()
 
     # kits.yaml
-    loadconfig("Kit")
+    loadconfig("Kit") if {_type} = "load"
     reloadconfig("Kit") if {_type} = "reload"
     kit_vars()
 
 # loading specific configs
+# note: file path is case-sensitive
 local function loadconfig(config: text):
     load yaml "plugins/Skript/scripts/Kinglonmc/code/configs/%{_config}%.yaml" as "%{_config} in lowercase%conf"
 
@@ -33,7 +34,7 @@ local function reloadconfig(config: text):
     set {_conf} to "%{_config} in lowercase%conf"
     save yaml {_conf}
     unload yaml {_conf}
-    load yaml "plugins/Skript/scripts/Kinglonmc/code/configs/%{_config}%.yaml" as {_conf}
+    loadconfig({_config})
 
 local function unloadconfig(config: text):
     unload yaml "%{_config} in lowercase%conf"
