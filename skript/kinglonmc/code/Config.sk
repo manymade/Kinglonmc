@@ -7,21 +7,29 @@ on unload:
     unloadconfig("Kit")
     unloadconfig("Score")
 
+on skript load:
+    loadconfigs("load")
+
 on load:
-    loadconfigs()
+    loadconfigs("reload")
 
 # loading all configs will be called from here
-local function loadconfigs():
+local function loadconfigs(type: text):
     # score.yaml
-    loadconfig("Score")
+    loadconfig("Score") if {_type} = "load"
+    reloadconfig("Score") if {_type} = "reload"
     score_vars()
 
     # kits.yaml
     loadconfig("Kit")
+    reloadconfig("Kit") if {_type} = "reload"
     kit_vars()
 
 # loading specific configs
 local function loadconfig(config: text):
+    load yaml "plugins/Skript/scripts/Kinglonmc/code/configs/%{_config}%.yaml" as "%{_config} in lowercase%conf"
+
+local function reloadconfig(config: text):
     set {_conf} to "%{_config} in lowercase%conf"
     save yaml {_conf}
     unload yaml {_conf}
@@ -52,7 +60,7 @@ function kitconfig_save(kitname: text, items: texts):
     set yaml value "Kits.%{_kn}%.state" from "kitconf" to "true"
     set yaml value "Kits.%{_kn}%.name" from "kitconf" to {_kitname}
     set yaml list "Kits.%{_kn}%.items" from "kitconf" to {_items::*}
-    loadconfig("Kit")
+    reloadconfig("Kit")
     kit_var_initset({_kn})
     
 
@@ -61,5 +69,5 @@ function kitconfig_remove(kitname: text):
     delete yaml value "Kits.%{_kitname}%.state" from "kitconf"
     delete yaml value "Kits.%{_kitname}%.name" from "kitconf"
     delete yaml list "Kits.%{_kitname}%.items" from "kitconf"
-    loadconfig("Kit")
+    reloadconfig("Kit")
     kit_names()
