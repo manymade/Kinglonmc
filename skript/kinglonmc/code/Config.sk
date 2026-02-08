@@ -2,27 +2,22 @@
 # https://github.com/manymade/Kinglonmc
 
 
-# load all the configs
-on unload:
-    unloadconfig("Kit")
-    unloadconfig("Score")
-
 on skript load:
-    loadconfigs("load")
+    loadconfigs(true)
 
 on load:
-    loadconfigs("reload")
+    loadconfigs(false)
 
 # loading all configs will be called from here
-local function loadconfigs(type: text):
+local function loadconfigs(boolean: boolean):
     # score.yaml
-    loadconfig("Score") if {_type} = "load"
-    reloadconfig("Score") if {_type} = "reload"
+    loadconfig("Score") if {_boolean} = true
+    reloadconfig("Score") if {_boolean} = false
     score_vars()
 
     # kits.yaml
-    loadconfig("Kit") if {_type} = "load"
-    reloadconfig("Kit") if {_type} = "reload"
+    loadconfig("Kit") if {_boolean} = true
+    reloadconfig("Kit") if {_boolean} = false
     kit_vars()
 
 # loading specific configs
