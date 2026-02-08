@@ -31,7 +31,7 @@ local function reloadconfig(config: text):
     loadconfig({_config})
     saveconfig({_config})
     
-local function saveconfig(config: text)
+local function saveconfig(config: text):
     save yaml "%{_config} in lowercase%conf"
 
 local function unloadconfig(config: text):
